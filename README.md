@@ -1,75 +1,59 @@
-# Nuxt Minimal Starter
+# VibeHub Lite (Vite + Vue + Supabase)
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Minimal light-themed project with two pages:
 
-## Setup
+- `/prompts` for AI prompts
+- `/tools` for useful links
 
-Make sure to install dependencies:
+Both pages are connected to Supabase for loading and inserting data.
+
+## 1) Install
 
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+## 2) Environment variables
 
-Start the development server on `http://localhost:3000`:
+Create `.env` from `.env.example` and fill in values:
+
+```env
+VITE_SUPABASE_URL=https://your-project-ref.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+```
+
+## 3) Supabase tables
+
+Run in Supabase SQL editor:
+
+```sql
+create table if not exists prompts (
+  id bigint generated always as identity primary key,
+  name text not null,
+  prompt_text text not null,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists tools (
+  id bigint generated always as identity primary key,
+  title text not null,
+  url text not null,
+  description text not null,
+  created_at timestamptz not null default now()
+);
+```
+
+If RLS is enabled, add policies for `select` and `insert` for anon/authenticated users as needed.
+
+## 4) Run
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
-
-Build the application for production:
+## 5) Build
 
 ```bash
-# npm
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
 npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
