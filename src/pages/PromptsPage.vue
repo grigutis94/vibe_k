@@ -32,8 +32,18 @@
       <p v-else-if="prompts.length === 0">No prompts yet.</p>
 
       <ul v-else class="simple-list">
-        <li v-for="prompt in prompts" :key="prompt.id">
-          <p class="list-title">{{ prompt.name }}</p>
+        <li v-for="prompt in prompts" :key="prompt.id" class="prompt-item">
+          <div class="prompt-item-header">
+            <img
+              class="prompt-avatar"
+              :src="getAuthorAvatarUrl(prompt.name)"
+              :alt="`Author avatar for ${prompt.name || 'Unknown'}`"
+              loading="lazy"
+              decoding="async"
+              referrerpolicy="no-referrer"
+            />
+            <p class="list-title">{{ prompt.name }}</p>
+          </div>
           <p>{{ prompt.prompt_text }}</p>
         </li>
       </ul>
@@ -44,6 +54,7 @@
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
 import { supabase, supabaseConfigError } from '../lib/supabase'
+import { getAuthorAvatarUrl } from '../lib/avatar'
 
 const prompts = ref([])
 const isLoading = ref(true)
